@@ -1,0 +1,48 @@
+{
+  "extends": ["tslint:recommended", "tslint-plugin-prettier", "tslint-config-prettier"],
+  "rules": {
+    "prettier": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "arrow-call-signature",
+      "parameter",
+      "arrow-parameter",
+      "property-declaration",
+      "variable-declaration",
+      "member-variable-declaration",
+      "object-destructuring",
+      "array-destructuring"
+    ],
+    "object-literal-sort-keys": false,
+    "no-duplicate-imports": true,
+    "no-require-imports": true,
+    "ordered-imports": true,
+    "no-trailing-whitespace": [true, "ignore-comments", "ignore-jsdoc", "ignore-template-strings"],
+    "array-type": [true, "array"],
+    "interface-name": [true, "never-prefix"],
+    "member-access": [true, "no-public"],
+    "triple-equals": true,
+    "member-ordering": [
+      true,
+      {
+        "order": ["static-field", "static-method", "instance-field", "constructor", "instance-method"]
+      }
+    ],
+    "no-import-side-effect": [
+      true,
+      {
+        "ignore-module": "reflect-metadata"
+      }
+    ],
+    "no-implicit-dependencies": [true, "dev"],
+    "no-console": [true, "log"],
+    "no-default-export": false,
+    "max-classes-per-file": false,
+    "interface-over-type-literal": false,
+    "no-floating-promises": true
+  },
+  "linterOptions": {
+    "exclude": ["coverage", "node_modules", "build"]
+  }
+}
