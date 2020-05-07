@@ -23,6 +23,9 @@
       "src/types"
     ]
   },
-  "include": ["src/**/*.ts", "src/locales/*.json"],
+  "include": [
+    "src/**/*.ts",
+    "src/locales/*.json"
+  ],
   "exclude": ["node_modules", "coverage", "build"]
 }

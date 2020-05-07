@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  bot:
+    image: node:12.13.0-alpine
+    working_dir: /var/www/bot
+    restart: unless-stopped
+    env_file: .env
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./bot:/var/www/bot
+
+  db:
+    image: mongo:4.1.8-xenial
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - ./database/dbdata:/data/db
+
+volumes:
+  dbdata:

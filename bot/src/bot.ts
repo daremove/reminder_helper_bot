@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import mongoose, { Mongoose } from "mongoose";
+import mongoose, { ConnectionOptions, Mongoose } from "mongoose";
 import { resolve } from "path";
 import { ContextMessageUpdate, SceneContext, session, Stage } from "telegraf";
 import I18n, { match } from "telegraf-i18n";
@@ -29,17 +29,29 @@ export interface SceneContextMessage extends ContextMessageUpdate {
   scene: SceneContext<this>;
 }
 
-if (process.env.MONGO_URI === undefined) {
+const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_DB, MONGO_PORT, MONGO_HOSTNAME }: any = process.env;
+
+if (
+  MONGO_USERNAME === undefined ||
+  MONGO_PASSWORD === undefined ||
+  MONGO_DB === undefined ||
+  MONGO_PORT === undefined ||
+  MONGO_HOSTNAME === undefined
+) {
   throw new Error("Mongo URI isn't set.");
 }
 
+const MONGO_URI: string = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+const MONGO_OPTIONS: ConnectionOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+  connectTimeoutMS: 10000
+};
+
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-  })
+  .connect(MONGO_URI, MONGO_OPTIONS)
   .then((mongo: Mongoose): void => {
     // tslint:disable-next-line:no-console
     console.log(`MongoDB Connected: ${mongo.connection.host}`);
